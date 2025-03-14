@@ -58,7 +58,7 @@ style = "semver"
 [[tool.poetry.source]]
 name = "aliyun"
 url = "https://mirrors.aliyun.com/pypi/simple"
-priority = "primary"
+default = true
 
 
 [tool.pytest.ini_options]
