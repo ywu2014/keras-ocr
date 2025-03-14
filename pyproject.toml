@@ -55,6 +55,12 @@ enable = true
 vcs = "git"
 style = "semver"
 
+[[tool.poetry.source]]
+name = "aliyun"
+url = "https://mirrors.aliyun.com/pypi/simple"
+priority = "primary"
+
+
 [tool.pytest.ini_options]
 addopts = "--cov=keras_ocr --cov-report=term-missing"
 filterwarnings = [
