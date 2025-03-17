@@ -12,7 +12,7 @@ import sklearn.model_selection
 import keras_ocr
 
 ## Generating synthetic data
-assert tf.test.is_gpu_available(), 'No GPU is available.'
+# assert tf.test.is_gpu_available(), 'No GPU is available.'
 
 data_dir = '.'
 alphabet = string.digits + string.ascii_letters + '!?. '

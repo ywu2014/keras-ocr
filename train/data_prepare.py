@@ -11,20 +11,47 @@ import sklearn.model_selection
 
 import keras_ocr
 
+from utils import get_text_generator
+
 ## Generating synthetic data
 # assert tf.test.is_gpu_available(), 'No GPU is available.'
 
 data_dir = '.'
-alphabet = string.digits + string.ascii_letters + '!?. '
+alphabet = string.digits + string.ascii_letters + '+-×±Φ. '
 recognizer_alphabet = ''.join(sorted(set(alphabet.lower())))
-fonts = keras_ocr.data_generation.get_fonts(
-    alphabet=alphabet,
-    cache_dir=data_dir
-)
-backgrounds = keras_ocr.data_generation.get_backgrounds(cache_dir=data_dir)
+# fonts = keras_ocr.data_generation.get_fonts(
+#     alphabet=alphabet,
+#     cache_dir=data_dir
+# )
+# backgrounds = keras_ocr.data_generation.get_backgrounds(cache_dir=data_dir)
+fonts = [
+    './fonts/fangsong_GB2312.ttf', 
+    './fonts/GenShinGothic-Bold.ttf', 
+    './fonts/GenShinGothic-Medium.ttf', 
+    './fonts/GenShinGothic-Monospace-Light.ttf', 
+    './fonts/GenShinGothic-Normal.ttf', 
+    './fonts/GenShinGothic-P-Normal.ttf', 
+    './fonts/kaiti_GB2312.ttf', 
+    './fonts/msyh.ttf', 
+    './fonts/simhei.ttf', 
+    './fonts/songti.ttf'
+]
+backgrounds = [
+    './backgrounds/1024px-actinostola.jpg',
+    './backgrounds/makasiinit_tulessa.jpg',
+    './backgrounds/stromboli_eruption.jpg',
+    './backgrounds/1024px-wtc-photo.jpg',
+    './backgrounds/1024px-women_model_top.jpg',
+    './backgrounds/1024px-actinostola.jpg',
+    './backgrounds/makasiinit_tulessa.jpg',
+    './backgrounds/stromboli_eruption.jpg',
+    './backgrounds/1024px-wtc-photo.jpg',
+    './backgrounds/1024px-women_model_top.jpg',
+]
 
 
-text_generator = keras_ocr.data_generation.get_text_generator(alphabet=alphabet)
+# text_generator = keras_ocr.data_generation.get_text_generator(alphabet=alphabet)
+text_generator = get_text_generator(alphabet=alphabet)
 print('The first generated text is:', next(text_generator))
 
 def get_train_val_test_split(arr):
