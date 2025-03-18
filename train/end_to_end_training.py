@@ -10,6 +10,12 @@ import tensorflow as tf
 import sklearn.model_selection
 
 import keras_ocr
+import tensorflow as tf  
+
+# TensorFlow 2.x compatibility
+# 这两行代码一定要在model.compile()之前执行 
+tf.compat.v1.disable_eager_execution()
+tf.compat.v1.experimental.output_all_intermediates(True)
 
 ## Generating synthetic data
 # assert tf.test.is_gpu_available(), 'No GPU is available.'
@@ -83,7 +89,7 @@ detection_train_generator, detection_val_generator, detection_test_generator = [
 detector.model.fit(
     detection_train_generator,
     steps_per_epoch=math.ceil(len(background_splits[0]) / detector_batch_size),
-    epochs=1000,
+    epochs=1,
     workers=0,
     callbacks=[
         tf.keras.callbacks.EarlyStopping(restore_best_weights=True, patience=5),
@@ -121,9 +127,15 @@ recognition_train_generator, recognition_val_generator, recognition_test_generat
     lowercase=True
     ) for image_generator in recognition_image_generators
 ]
+
+# print('*'*30)
+# print(next(recognition_train_generator))
+# print(next(recognition_train_generator))
+# print(next(recognition_train_generator))
+
 recognizer.training_model.fit(
     recognition_train_generator,
-    epochs=1000,
+    epochs=1,
     steps_per_epoch=math.ceil(len(background_splits[0]) / recognition_batch_size),
     callbacks=[
         tf.keras.callbacks.EarlyStopping(restore_best_weights=True, patience=25),
@@ -133,7 +145,7 @@ recognizer.training_model.fit(
     validation_data=recognition_val_generator,
     validation_steps=math.ceil(len(background_splits[1]) / recognition_batch_size),
     workers=0,
-    bacth_size=recognition_batch_size
+    # batch_size=recognition_batch_size
 )
 
 ## Use the models for inference

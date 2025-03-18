@@ -55,7 +55,7 @@ def next_composite_str():
     return next_random_letter() + next_number_str() + "×" + next_number_str() + "-" + next_number_str()+next_random_letter()
 
 def next_string():
-    num = random.randint(1, 7)
+    num = random.randint(1, 6)
     if num == 1:
         return next_positive_negative_str()
     elif num == 2:

@@ -36,17 +36,29 @@ fonts = [
     './fonts/simhei.ttf', 
     './fonts/songti.ttf'
 ]
+# backgrounds = [
+#     './backgrounds/1024px-actinostola.jpg',
+#     './backgrounds/makasiinit_tulessa.jpg',
+#     './backgrounds/stromboli_eruption.jpg',
+#     './backgrounds/1024px-wtc-photo.jpg',
+#     './backgrounds/1024px-women_model_top.jpg',
+#     './backgrounds/1024px-actinostola.jpg',
+#     './backgrounds/makasiinit_tulessa.jpg',
+#     './backgrounds/stromboli_eruption.jpg',
+#     './backgrounds/1024px-wtc-photo.jpg',
+#     './backgrounds/1024px-women_model_top.jpg',
+# ]
 backgrounds = [
-    './backgrounds/1024px-actinostola.jpg',
-    './backgrounds/makasiinit_tulessa.jpg',
-    './backgrounds/stromboli_eruption.jpg',
-    './backgrounds/1024px-wtc-photo.jpg',
-    './backgrounds/1024px-women_model_top.jpg',
-    './backgrounds/1024px-actinostola.jpg',
-    './backgrounds/makasiinit_tulessa.jpg',
-    './backgrounds/stromboli_eruption.jpg',
-    './backgrounds/1024px-wtc-photo.jpg',
-    './backgrounds/1024px-women_model_top.jpg',
+    './backgrounds/bg.jpg',
+    './backgrounds/bg.jpg',
+    './backgrounds/bg.jpg',
+    './backgrounds/bg.jpg',
+    './backgrounds/bg.jpg',
+    './backgrounds/bg.jpg',
+    './backgrounds/bg.jpg',
+    './backgrounds/bg.jpg',
+    './backgrounds/bg.jpg',
+    './backgrounds/bg.jpg',
 ]
 
 
@@ -71,11 +83,11 @@ image_generators = [
             alphabet: current_fonts
         },
         backgrounds=current_backgrounds,
-        font_size=(60, 120),
+        font_size=(30, 40),
         margin=50,
         rotationX=(-0.05, 0.05),
         rotationY=(-0.05, 0.05),
-        rotationZ=(-15, 15)
+        rotationZ=(-90, 90)
     )  for current_fonts, current_backgrounds in zip(
         font_splits,
         background_splits
@@ -84,6 +96,7 @@ image_generators = [
 
 # See what the first validation image looks like.
 image, lines = next(image_generators[1])
+print('lines:', lines)
 text = keras_ocr.data_generation.convert_lines_to_paragraph(lines)
 print('The first generated validation image (below) contains:', text)
 plt.imshow(image)
