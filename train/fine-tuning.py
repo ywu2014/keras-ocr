@@ -133,6 +133,18 @@ if train_detector:
     elapsed_time = end_time - start_time
     print(f"detector training finished!! total cost: {elapsed_time}s")
 
+def scheduler(epoch, lr):
+    if epoch % 20 == 0 and epoch != 0:
+        n_lr = lr * 0.5
+    else:
+        n_lr = lr
+    print(f"********* lr changed to {n_lr}")
+    return n_lr
+    # if epoch < 10:
+    #     return lr
+    # else:
+    #     return lr * tf.math.exp(-0.1)
+
 if train_recognizer:
     start_time = time.time()
     print('-'*30)
@@ -147,6 +159,13 @@ if train_recognizer:
         alphabet=recognizer_alphabet,
         weights='kurapan'
     )
+    
+    # 设置学习率
+    # optimizer = tf.keras.optimizers.RMSprop(learning_rate=0.0001)
+    # optimizer = tf.keras.optimizers.Adam(learning_rate=0.0001)
+    # optimizer = tf.optimizers.RMSprop(learning_rate=0.0001)
+    # recognizer.compile(optimizer=optimizer)
+
     recognizer.compile()
     for layer in recognizer.backbone.layers:
         layer.trainable = False
@@ -168,7 +187,7 @@ if train_recognizer:
     plt.imshow(image)
 
     recognition_batch_size = 8
-    epochs = 100
+    epochs = 200
     recognizer_basepath = os.path.join(data_dir, f'recognizer_epochs-{epochs}_{datetime.datetime.now().isoformat()}')
     recognition_train_generator, recognition_val_generator, recognition_test_generator = [
         recognizer.get_batch_generator(
@@ -183,6 +202,7 @@ if train_recognizer:
         epochs=epochs,
         steps_per_epoch=math.ceil(len(background_splits[0]) / recognition_batch_size),
         callbacks=[
+            tf.keras.callbacks.LearningRateScheduler(schedule=scheduler),
             tf.keras.callbacks.EarlyStopping(restore_best_weights=True, patience=25),
             tf.keras.callbacks.CSVLogger(f'{recognizer_basepath}.csv', append=True),
             tf.keras.callbacks.ModelCheckpoint(filepath=f'{recognizer_basepath}.h5')
